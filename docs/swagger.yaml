@@ -1,0 +1,767 @@
+basePath: /api/v1
+definitions:
+  github_com_isaiaspereira307_photo-event-backend_handlers_auth_2fa_handler.ErrorResponse:
+    properties:
+      error_code:
+        type: string
+      message:
+        type: string
+    type: object
+  github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse:
+    properties:
+      error_code:
+        type: string
+      message:
+        type: string
+    type: object
+  handlers.CreateUserRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - first_name
+    - last_name
+    - password
+    type: object
+  handlers.CreateUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.UserResponse'
+      message:
+        type: string
+    type: object
+  handlers.DeleteUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.UserResponse'
+      message:
+        type: string
+    type: object
+  handlers.Enable2FARequest:
+    properties:
+      enable:
+        type: boolean
+    required:
+    - enable
+    type: object
+  handlers.Enable2FAResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.TwoFactorSettingsResponse'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  handlers.ListUserResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/schemas.UserResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  handlers.ShowUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.UserResponse'
+      message:
+        type: string
+    type: object
+  handlers.UpdateUserRequest:
+    properties:
+      email:
+        type: string
+      first_name:
+        type: string
+      is_active:
+        type: boolean
+      is_premium:
+        type: boolean
+      is_staff:
+        type: boolean
+      is_superuser:
+        type: boolean
+      last_name:
+        type: string
+      password:
+        type: string
+    type: object
+  handlers.UpdateUserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.UserResponse'
+      message:
+        type: string
+    type: object
+  handlers.UserResponse:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      is_active:
+        type: boolean
+      is_premium:
+        type: boolean
+      is_staff:
+        type: boolean
+      is_superuser:
+        type: boolean
+      last_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  handlers.Verify2FARequest:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  handlers.Verify2FAResponse:
+    properties:
+      message:
+        type: string
+      success:
+        type: boolean
+      token:
+        type: string
+    type: object
+  schemas.ErrorResponse:
+    properties:
+      error:
+        example: Erro de validação
+        type: string
+      message:
+        example: Campo obrigatório não informado
+        type: string
+    type: object
+  schemas.LoginRequest:
+    properties:
+      email:
+        example: joao@exemplo.com
+        type: string
+      senha:
+        example: senha123
+        type: string
+    required:
+    - email
+    - senha
+    type: object
+  schemas.LoginResponse:
+    properties:
+      message:
+        example: Login realizado com sucesso
+        type: string
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+      user:
+        $ref: '#/definitions/schemas.User'
+    type: object
+  schemas.RegisterRequest:
+    properties:
+      email:
+        example: joao@exemplo.com
+        type: string
+      nome:
+        example: João Silva
+        minLength: 2
+        type: string
+      senha:
+        example: senha123
+        minLength: 6
+        type: string
+      tipo:
+        allOf:
+        - $ref: '#/definitions/schemas.UserRole'
+        example: usuario
+    required:
+    - email
+    - nome
+    - senha
+    type: object
+  schemas.SuccessResponse:
+    properties:
+      data: {}
+      message:
+        example: Operação realizada com sucesso
+        type: string
+    type: object
+  schemas.TwoFactorSettingsResponse:
+    properties:
+      created_at:
+        type: string
+      enabled:
+        type: boolean
+      id:
+        type: integer
+      last_verified_at:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: string
+    type: object
+  schemas.User:
+    properties:
+      biografia:
+        description: Campos específicos para fotógrafos
+        type: string
+      creditos:
+        type: number
+      data_cadastro:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      nome:
+        type: string
+      telefone:
+        type: string
+      tipo:
+        $ref: '#/definitions/schemas.UserRole'
+      ultimo_acesso:
+        type: string
+      url_capa:
+        type: string
+      url_perfil:
+        type: string
+      website:
+        type: string
+    type: object
+  schemas.UserResponse:
+    properties:
+      biografia:
+        example: Fotógrafo profissional
+        type: string
+      creditos:
+        example: 100.5
+        type: number
+      data_cadastro:
+        example: "2025-08-19T14:00:00Z"
+        type: string
+      email:
+        example: joao@exemplo.com
+        type: string
+      id:
+        example: 123e4567-e89b-12d3-a456-426614174000
+        type: string
+      nome:
+        example: João Silva
+        type: string
+      telefone:
+        example: (11) 99999-9999
+        type: string
+      tipo:
+        allOf:
+        - $ref: '#/definitions/schemas.UserRole'
+        example: usuario
+      ultimo_acesso:
+        example: "2025-08-19T15:00:00Z"
+        type: string
+      url_capa:
+        example: https://exemplo.com/capa.jpg
+        type: string
+      url_perfil:
+        example: https://exemplo.com/perfil.jpg
+        type: string
+      website:
+        example: https://joaosilva.com
+        type: string
+    type: object
+  schemas.UserRole:
+    enum:
+    - admin
+    - fotografo
+    - usuario
+    type: string
+    x-enum-comments:
+      RoleAdmin: Administrador do sistema
+      RoleFotografo: Fotógrafo profissional
+      RoleUsuario: Usuário comum
+    x-enum-varnames:
+    - RoleAdmin
+    - RoleFotografo
+    - RoleUsuario
+host: localhost:9000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: API para gerenciamento de eventos fotográficos
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Photo Event API
+  version: "1.0"
+paths:
+  /auth/2fa/settings:
+    get:
+      description: Retorna as configurações atuais de 2FA do usuário
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Enable2FAResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - Bearer: []
+      summary: Obter configurações 2FA
+      tags:
+      - auth-2fa
+    post:
+      consumes:
+      - application/json
+      - application/json
+      description: |-
+        Enable or disable two-factor authentication for the current user
+        Habilita ou desabilita a autenticação de dois fatores para o usuário
+      parameters:
+      - description: Enable 2FA Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.Enable2FARequest'
+      - description: Configuração 2FA
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.Enable2FARequest'
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Enable2FAResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_auth_2fa_handler.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - Bearer: []
+      - Bearer: []
+      summary: Habilitar/Desabilitar 2FA
+      tags:
+      - auth
+      - auth-2fa
+  /auth/2fa/verify:
+    post:
+      consumes:
+      - application/json
+      description: Verify the 2FA verification code during login
+      parameters:
+      - description: User email
+        in: query
+        name: email
+        required: true
+        type: string
+      - description: Verification Code
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.Verify2FARequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.Verify2FAResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_auth_2fa_handler.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_auth_2fa_handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_auth_2fa_handler.ErrorResponse'
+      summary: Verify 2FA code
+      tags:
+      - auth
+  /auth/forgot-password:
+    post:
+      description: Inicia o processo de recuperação de senha (não implementado)
+      produces:
+      - application/json
+      responses:
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+      summary: Esqueceu a senha
+      tags:
+      - auth
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Realiza login de um usuário no sistema
+      parameters:
+      - description: Credenciais de login
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+      summary: Login do usuário
+      tags:
+      - auth
+  /auth/logout:
+    post:
+      description: Realiza logout do usuário (não implementado)
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.SuccessResponse'
+      security:
+      - Bearer: []
+      summary: Logout
+      tags:
+      - auth
+  /auth/refresh:
+    post:
+      description: Renova o token de acesso (não implementado)
+      produces:
+      - application/json
+      responses:
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Refresh Token
+      tags:
+      - auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Registra um novo usuário no sistema
+      parameters:
+      - description: Dados de registro
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/schemas.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+      summary: Registrar usuário
+      tags:
+      - auth
+  /auth/reset-password:
+    post:
+      description: Redefine a senha do usuário (não implementado)
+      produces:
+      - application/json
+      responses:
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/schemas.ErrorResponse'
+      summary: Reset de senha
+      tags:
+      - auth
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Show all users
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ListUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Show users
+      tags:
+      - user
+    post:
+      consumes:
+      - application/json
+      description: Create an user
+      parameters:
+      - description: Create User Params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.CreateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Create an user
+      tags:
+      - user
+  /users/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an user
+      parameters:
+      - description: Delete User Param
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.DeleteUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Delete an user
+      tags:
+      - user
+    get:
+      consumes:
+      - application/json
+      description: Show an user
+      parameters:
+      - description: Show User Request
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.ShowUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Show user
+      tags:
+      - user
+    put:
+      consumes:
+      - application/json
+      description: Update an user
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Update User Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handlers.UpdateUserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_isaiaspereira307_photo-event-backend_handlers_users_handler.ErrorResponse'
+      security:
+      - Bearer: []
+      summary: Update an user
+      tags:
+      - user
+  /users/me:
+    get:
+      consumes:
+      - application/json
+      description: |-
+        Get details of the currently authenticated user
+        Retorna informações do usuário autenticado
+      produces:
+      - application/json
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            properties:
+              data:
+                $ref: '#/definitions/schemas.UserResponse'
+              message:
+                type: string
+              success:
+                type: boolean
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            properties:
+              error:
+                type: string
+            type: object
+      security:
+      - Bearer: []
+      - Bearer: []
+      summary: Obter usuário atual
+      tags:
+      - users
+      - users
+securityDefinitions:
+  Bearer:
+    description: Bearer token para autenticação
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

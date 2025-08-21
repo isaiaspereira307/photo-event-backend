@@ -1,0 +1,49 @@
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - gin-api
+      - database
+    networks:
+      - backend-network
+
+  gin-api:
+    container_name: gin-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    depends_on:
+      - database
+    networks:
+      - backend-network
+
+  photo-database:
+    image: 'postgres:17'
+    container_name: photo-database
+    restart: always
+    tty: true
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
