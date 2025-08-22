@@ -19,22 +19,11 @@ expose_headers="Content-Length"
 allow_credentials=true
 max_age=86400
 
-[ai]
-api_key="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"
-endpoint=""
-model="gpt-3.5-turbo"
-
-[stripe]
-secret_key = "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"
-publishable_key = "pk_live_51QNeiOL1w4AlwZff6YPMSjQ6c0ULm1Y1WLuvoylRrZf4UeGviNPM1K55lWSdKK79nWjBHP1wd6cT1sCTTUQL3dss00azgnRZlG"
-success_url="http://seusite.com/success"
-cancel_url="http://seusite.com/cancel"
 
 [csrf]
 secret = "3aeb8804f340b1327c38ff5d73edfcdac3ef74f33c1ef7bc5916fbcf7d77429b"
 
-[resend]
-api_key="re_Zt7QPafx_PrLarsH687AFHaC2VZ8BiC56"
+
 
 
 [waha]
